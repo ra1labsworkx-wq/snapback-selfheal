@@ -1,0 +1,69 @@
+# .github/workflows/publish.yml for the ra1labsworkx-wq/snapback-selfheal repo.
+# Publishes to PyPI via TRUSTED PUBLISHING (OIDC) - no stored API token to steal.
+# This is the definitive 2026 supply-chain mitigation: the litellm (95M dl) + durabletask compromises were both
+# stolen-token DIRECT uploads to PyPI; with OIDC, PyPI rejects any upload not from THIS repo's authorized workflow.
+#
+# ONE-TIME SETUP on PyPI (before the first OIDC publish):
+#   PyPI -> the snapback-selfheal project -> Publishing -> Add a "Trusted Publisher":
+#     Owner: ra1labsworkx-wq   Repository: snapback-selfheal
+#     Workflow: publish.yml    Environment: pypi
+#   (For the very FIRST release, the project must exist - do one manual token upload OR use PyPI's
+#    "pending publisher" feature which lets you register the publisher before the project exists.)
+#
+# The split build/publish jobs keep the OIDC token exposed to the BARE MINIMUM of steps (PyPI's own guidance).
+
+name: Publish snapback-selfheal to PyPI
+
+on:
+  push:
+    tags:
+      - "v*"          # publish only on a version tag (v0.1.0, ...); protect these tags to maintainers
+
+permissions: {}       # default: nothing. Each job grants only what it needs.
+
+jobs:
+  build:
+    name: Build the distribution
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+      - name: Verify only the intended files are in the sdist (supply-chain guard)
+        run: |
+          python -m pip install --upgrade twine
+          python -m twine check dist/*
+          echo "=== sdist contents (must be ONLY snapback_interceptor.py + pyproject + README + metadata) ==="
+          tar -tzf dist/*.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publish to PyPI (OIDC)
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/snapback-selfheal/
+    permissions:
+      id-token: write   # <- REQUIRED for Trusted Publishing. (Without it, and once a permissions: block exists,
+                        #    every other permission is 'none' - the publish would fail. This is the classic trap.)
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Publish via Trusted Publishing (no token)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
+          # NO password: input - the OIDC flow provides a short-lived (<=15 min) credential automatically.

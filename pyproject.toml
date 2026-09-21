@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snapback-selfheal"
+version = "0.1.0"
+description = "Make your AI agent self-heal — auto-diagnose every error and apply safe fixes, gated. Snapback interceptor for OpenClaw and any Python agent."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Snapback / RA1 Labs" }]
+keywords = ["ai-agent", "self-healing", "agentops", "openclaw", "error-recovery", "mcp", "snapback"]
+dependencies = []  # stdlib only — no supply-chain surface
+
+[project.urls]
+Homepage = "https://snapback.sh"
+"For agents" = "https://snapback.sh/for-agents"
+Docs = "https://snapback.sh/docs"
+
+[project.optional-dependencies]
+# none required; the interceptor uses only urllib from the stdlib.
+
+[tool.setuptools]
+py-modules = ["snapback_interceptor"]

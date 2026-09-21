@@ -1,0 +1,27 @@
+{
+  "name": "snapback-selfheal",
+  "version": "0.1.0",
+  "title": "Snapback Self-Heal",
+  "tagline": "Your agents self-heal — auto-diagnose every error, apply the safe fix, retry once, escalate the risky.",
+  "description": "Wraps your agent's tool calls. On ANY error it auto-calls Snapback's free diagnose_infra_error, and if the fix is high-confidence, library-sourced, and reversible (the three-factor gate), it applies it and retries once — otherwise it escalates to a human. Never auto-applies a state-changing or destructive fix. 100% client-side, free diagnosis, no token required. Turns Snapback from a tool you must remember to call into infrastructure that runs on every failure.",
+  "author": "Snapback / RA1 Labs",
+  "license": "MIT",
+  "homepage": "https://snapback.sh/for-agents",
+  "repository": "https://github.com/ra1labsworkx-wq/snapback-selfheal",
+  "keywords": ["self-healing", "error-recovery", "agentops", "diagnosis", "openclaw", "autonomous"],
+  "install": {
+    "pip": "pip install snapback-selfheal",
+    "env": {
+      "SNAPBACK_MCP": "https://api.snapback.sh/mcp (default; the free tools need no token)",
+      "SNAPBACK_CONF_MIN": "0.85 (the gate's confidence floor)"
+    }
+  },
+  "usage": "from snapback_interceptor import SnapbackInterceptor\nheal = SnapbackInterceptor(auto_apply=True)\nresult = heal.run(my_tool_call, *args, **kwargs)   # auto-diagnose + safe-retry on error",
+  "gate_contract": {
+    "auto_apply_when": "confidence >= 0.85 AND source == 'library' AND auto_safe == true (action_class retry|refetch|config)",
+    "never_auto_apply": "mutate | destructive (creates/changes state, money, auth) — escalate to a human",
+    "fails": "closed (when unsure, escalate)"
+  },
+  "safety": "Client-side only. Talks to the free public diagnose_infra_error endpoint. Sends only the error string you pass; Snapback also scrubs server-side. Never auto-applies a state-changing fix.",
+  "capabilities": ["error-interception", "confidence-gated-auto-apply", "single-retry", "escalation", "feedback-on-outcome"]
+}
