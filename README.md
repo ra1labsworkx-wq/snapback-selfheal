@@ -72,3 +72,5 @@ can't over-trust.
 ## Roadmap
 - `submit_feedback` on the retry outcome (did the fix work?) → feeds the shared library (the network effect).
 - Hermes + LangChain adapters (same gate, different framework hook).
+
+<!-- mcp-name: io.github.ra1labsworkx-wq/snapback -->
