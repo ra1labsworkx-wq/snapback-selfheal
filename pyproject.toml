@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "snapback-selfheal"
-version = "1.8.0"
+version = "1.8.1"
 description = "Make your AI agent self-heal — auto-diagnose every error and apply safe fixes, gated. Snapback interceptor for OpenClaw and any Python agent."
 readme = "README.md"
 requires-python = ">=3.9"
