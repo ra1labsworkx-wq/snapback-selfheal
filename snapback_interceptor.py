@@ -84,6 +84,10 @@ class SnapbackInterceptor:
         conf_min     — the gate's confidence floor (default 0.85).
         on_escalate  — callback(verdict) when a fix is NOT auto-safe (log to your ops inbox / alert a human).
         on_heal      — callback(verdict) when a fix WAS auto-applied (for telemetry).
+                        BOTH callbacks receive the FULL verdict dict, so you can see EXACTLY what was diagnosed
+                        and applied: verdict["fix"] (the fix text), verdict["family"], verdict["confidence"],
+                        verdict["root_cause"], verdict["action_class"], verdict["gate"]. E.g.
+                        on_heal=lambda v: log.info(f"healed {v['family']}: {v['fix']} (conf {v['confidence']})").
         """
         self.auto_apply = auto_apply
         self.conf_min = conf_min
