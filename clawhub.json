@@ -1,6 +1,6 @@
 {
   "name": "snapback-selfheal",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "title": "Snapback Self-Heal",
   "tagline": "Your agents self-heal — auto-diagnose every error, apply the safe fix, retry once, escalate the risky.",
   "description": "Wraps your agent's tool calls. On ANY error it auto-calls Snapback's free diagnose_infra_error, and if the fix is high-confidence, library-sourced, and reversible (the three-factor gate), it applies it and retries once — otherwise it escalates to a human. Never auto-applies a state-changing or destructive fix. 100% client-side, free diagnosis, no token required. Turns Snapback from a tool you must remember to call into infrastructure that runs on every failure.",
