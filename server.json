@@ -1,49 +1,29 @@
-﻿{
-    "$schema":  "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-    "name":  "io.github.ra1labsworkx-wq/snapback",
-    "title":  "Snapback",
-    "description":  "Diagnose why an AI agent failed and get the verified fix instantly. Free, no LLM.",
-    "repository":  {
-                       "url":  "https://github.com/ra1labsworkx-wq/snapback-selfheal",
-                       "source":  "github"
-                   },
-    "version":  "1.7.0",
-    "remotes":  [
-                    {
-                        "type":  "streamable-http",
-                        "url":  "https://api.snapback.sh/mcp"
-                    }
-                ],
-    "_meta":  {
-                  "io.modelcontextprotocol.registry/publisher-provided":  {
-                                                                              "io.github.ra1labsworkx-wq":  {
-                                                                                                                "https://api.snapback.sh/mcp":  {
-                                                                                                                                                    "tier":  "Community",
-                                                                                                                                                    "status":  "Active",
-                                                                                                                                                    "tags":  [
-                                                                                                                                                                 "diagnostics",
-                                                                                                                                                                 "error-recovery",
-                                                                                                                                                                 "agentops",
-                                                                                                                                                                 "observability",
-                                                                                                                                                                 "self-healing",
-                                                                                                                                                                 "x402"
-                                                                                                                                                             ],
-                                                                                                                                                    "tools":  [
-                                                                                                                                                                  "diagnose_infra_error",
-                                                                                                                                                                  "diagnose_trace",
-                                                                                                                                                                  "convert_trace",
-                                                                                                                                                                  "what_others_did",
-                                                                                                                                                                  "report_outcome",
-                                                                                                                                                                  "recommend_failover",
-                                                                                                                                                                  "detect_loop",
-                                                                                                                                                                  "budget_guard",
-                                                                                                                                                                  "request_pattern",
-                                                                                                                                                                  "session_start",
-                                                                                                                                                                  "session_step",
-                                                                                                                                                                  "session_end"
-                                                                                                                                                              ]
-                                                                                                                                                }
-                                                                                                            }
-                                                                          }
-              }
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ra1labsworkx-wq/snapback",
+  "title": "Snapback",
+  "description": "Diagnose why an AI agent failed and get the verified fix — instantly, free, no LLM. Catches loops, step/token/context limits, wrong output, and 46 families of infrastructure errors (payments, on-chain, Kubernetes, serverless, Redis, GraphQL, Stripe, Terraform, and more), returning the non-obvious fix a base model gets wrong. Gate it for autonomous self-heal. Pay-per-call via x402 (Solana/EVM) for metered tools; core diagnosis is free.",
+  "repository": {
+    "url": "https://github.com/ra1labsworkx-wq/snapback-selfheal",
+    "source": "github"
+  },
+  "version": "1.8.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.snapback.sh/mcp"
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "io.github.ra1labsworkx-wq": {
+        "https://api.snapback.sh/mcp": {
+          "tier": "Community",
+          "status": "Active",
+          "tags": ["diagnostics", "error-recovery", "agentops", "observability", "self-healing", "x402"],
+          "tools": ["diagnose_infra_error", "diagnose_trace", "convert_trace", "what_others_did", "report_outcome", "recommend_failover", "detect_loop", "budget_guard", "request_pattern", "session_start", "session_step", "session_end"]
+        }
+      }
+    }
+  }
 }
