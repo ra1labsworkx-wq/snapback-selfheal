@@ -1,5 +1,9 @@
 # Snapback self-heal interceptor for OpenClaw
 
+<!-- MCP Registry ownership proof (https://github.com/modelcontextprotocol/registry) -->
+mcp-name: io.github.ra1labsworkx-wq/snapback
+
+
 **Make Snapback automatic.** Instead of remembering to call the diagnosis tool, wrap your agent's tool calls
 once — and every error is auto-diagnosed, and gated-safe fixes are applied and retried *without a human*.
 
@@ -60,6 +64,10 @@ if verdict["gate"]["auto_apply_ok"]:
 | `mutate` | creates/changes external state, money, auth | ❌ escalate |
 | `destructive` | deletes/reverts/irreversible | ❌ never |
 
+**Defense in depth (1.8.3):** even a reversible-class fix is down-graded to escalate if its text contains a
+destructive command (delete a pod, flush keys, drop a table). The gate returns `gate.contains_destructive_step`,
+so a fix can never auto-run a state-destroying step regardless of its action_class.
+
 `gate.auto_apply_ok` is the ready-made verdict; the interceptor also re-derives it locally so a stale client
 can't over-trust.
 
@@ -72,5 +80,3 @@ can't over-trust.
 ## Roadmap
 - `submit_feedback` on the retry outcome (did the fix work?) → feeds the shared library (the network effect).
 - Hermes + LangChain adapters (same gate, different framework hook).
-
-<!-- mcp-name: io.github.ra1labsworkx-wq/snapback -->
