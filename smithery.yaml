@@ -1,0 +1,13 @@
+# Smithery config for Snapback — a hosted remote MCP server (Streamable HTTP).
+# Snapback runs at api.snapback.sh/mcp; most tools are free and need no token, so no config is required to start.
+startCommand:
+  type: http
+  url: "https://api.snapback.sh/mcp"
+  configSchema:
+    type: object
+    properties:
+      token:
+        type: string
+        description: "Optional Snapback bearer token (vdk_...) for the metered deep-trace tools. The free tools (diagnose_infra_error, detect_loop, budget_guard, search_docs, what_others_did) need no token. Get a free starter token at https://api.snapback.sh/v1/agents/register, or pay per call via x402."
+    required: []
+  exampleConfig: {}
