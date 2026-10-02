@@ -10,6 +10,39 @@ once — and every error is auto-diagnosed, and gated-safe fixes are applied and
 > "Power tools are optional. Infrastructure is not." This turns Snapback from a tool you reach for into
 > infrastructure that runs on every failure.
 
+## Connect the MCP server
+
+Snapback is a **hosted remote MCP server** — nothing to run locally. Add it to any MCP client (Claude Code,
+Cursor, Cline, VS Code, Windsurf). Most tools are **free and need no token**.
+
+```json
+{
+  "mcpServers": {
+    "snapback": {
+      "url": "https://api.snapback.sh/mcp"
+    }
+  }
+}
+```
+
+Endpoint: `https://api.snapback.sh/mcp` (Streamable HTTP, JSON-RPC 2.0). Then call `tools/list` (23 tools) and try
+`diagnose_infra_error` with `{"error": "dns nxdomain servfail"}` → `family: dns-tls` + a verified fix.
+
+## Tools
+
+Free (no token): `diagnose_infra_error`, `detect_loop`, `budget_guard`, `search_docs`, `what_others_did`,
+`recommend_failover`, `cascade_root`, `suggest_budget_recovery`, `convert_trace`, `preflight`, `session_start`,
+`session_step`, `session_end`, `discovery`.
+
+Metered (free starter token or x402): `diagnose_trace`, `diagnose_batch`, `get_verdict`, `submit_feedback`,
+`report_outcome`, `request_pattern`, `my_usage`, `my_impact`, `agent_memory`.
+
+- **diagnose_infra_error** — a cryptic infra error → its family + the verified fix (library-first, ~150ms, no LLM on a hit). 46 families.
+- **detect_loop** — catch a repeating tool-call loop mid-run before the step limit.
+- **budget_guard** — catch token / step / context / cost overruns mid-run.
+- **what_others_did** — anonymized cross-agent outcomes for a failure class.
+- **diagnose_trace** — full multi-step trace diagnosis (metered).
+
 ## What it does
 On **any** tool-call error, the interceptor:
 1. Calls `diagnose_infra_error` (free, no token, no LLM, <150ms).
